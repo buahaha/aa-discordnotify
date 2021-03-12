@@ -50,7 +50,7 @@ def forward_notification_to_discord(notification: Notification):
         timestamp=notification.timestamp.isoformat(),
         footer=Embed.Footer(text=settings.SITE_NAME),
     )
-    logger.info("Forwarding notification to %s", notification.user)
+    logger.info("Forwarding notification %d to %s", notification.id, notification.user)
     _send_message_to_discord_user(user_id=discord_user_id, embed=embed)
 
 
