@@ -11,6 +11,7 @@ from allianceauth.notifications.models import Notification
 from allianceauth.services.hooks import get_extension_logger
 
 from . import __title__
+from .app_settings import DISCORDNOTIFY_DISCORDPROXY_PORT
 
 logger = LoggerAddTag(get_extension_logger(__name__), __title__)
 
@@ -54,7 +55,9 @@ def forward_notification_to_discord(notification: Notification):
 
 
 def _send_message_to_discord_user(user_id, embed):
-    with grpc.insecure_channel("localhost:50051") as channel:
+    with grpc.insecure_channel(
+        f"localhost:{DISCORDNOTIFY_DISCORDPROXY_PORT}"
+    ) as channel:
         client = DiscordApiStub(channel)
         request = SendDirectMessageRequest(user_id=user_id, embed=embed)
         client.SendDirectMessage(request)
