@@ -6,6 +6,7 @@ Forward Alliance Auth notifications to users on Discord
 [![python](https://img.shields.io/pypi/pyversions/aa-discordnotify)](https://pypi.org/project/aa-discordnotify/)
 [![django](https://img.shields.io/pypi/djversions/aa-discordnotify?label=django)](https://pypi.org/project/aa-discordnotify/)
 [![pipeline](https://gitlab.com/ErikKalkoken/aa-discordnotify/badges/master/pipeline.svg)](https://gitlab.com/ErikKalkoken/aa-discordnotify/-/pipelines)
+[![coverage report](https://gitlab.com/ErikKalkoken/aa-discordnotify/badges/master/coverage.svg)](https://gitlab.com/ErikKalkoken/aa-discordnotify/-/commits/master)
 [![license](https://img.shields.io/badge/license-MIT-green)](https://gitlab.com/ErikKalkoken/aa-discordnotify/-/blob/master/LICENSE)
 [![pre-commit](https://img.shields.io/badge/pre--commit-enabled-brightgreen?logo=pre-commit&logoColor=white)](https://github.com/pre-commit/pre-commit)
 [![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
@@ -22,6 +23,15 @@ Forward Alliance Auth notifications to users on Discord
 
 This app forwards Alliance Auth notifications to users on Discord as DM.
 
+### Features
+
+- Notifications are colored according to level (e.g. INFO = blue)
+- Option to forward superuser notifications only
+
+## Example
+
+![example](https://i.imgur.com/eebZFQj.png)
+
 ## Installation
 
 ### Preconditions
@@ -37,7 +47,7 @@ This app forwards Alliance Auth notifications to users on Discord as DM.
 Make sure you are in the virtual environment (venv) of your Alliance Auth installation. Then install the newest release from PyPI:
 
 ```bash
-pip install aa-discordproxy
+pip install git+https://gitlab.com/ErikKalkoken/aa-discordnotify
 ```
 
 ### Step 2a - Configure Auth settings
