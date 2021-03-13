@@ -18,9 +18,10 @@ setup(
     packages=find_packages(),
     include_package_data=True,
     license="MIT",
-    description="tbd",
+    description="Forward Alliance Auth notifications to users on Discord",
     long_description=long_description,
     long_description_content_type="text/markdown",
+    url="https://gitlab.com/ErikKalkoken/aa-discordnotify",
     author="Erik Kalkoken",
     author_email="kalkoken87@gmail.com",
     classifiers=[
@@ -28,7 +29,7 @@ setup(
         "Framework :: Django",
         "Framework :: Django :: 3.1",
         "Intended Audience :: Developers",
-        "License :: OSI Approved :: MIT License",  # example license
+        "License :: OSI Approved :: MIT License",
         "Operating System :: OS Independent",
         "Programming Language :: Python",
         "Programming Language :: Python :: 3.6",
@@ -39,5 +40,9 @@ setup(
         "Topic :: Internet :: WWW/HTTP :: Dynamic Content",
     ],
     python_requires="~=3.6",
-    install_requires=["allianceauth>=2.8.2", "discordproxy", "allianceauth-app-utils"],
+    install_requires=[
+        "allianceauth>=2.8.2",
+        "discordproxy",
+        "allianceauth-app-utils>=1.0.2",
+    ],
 )
