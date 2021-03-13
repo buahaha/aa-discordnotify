@@ -1,7 +1,6 @@
 from app_utils.logging import LoggerAddTag
 from celery import shared_task
 
-from allianceauth.notifications.models import Notification
 from allianceauth.services.hooks import get_extension_logger
 
 from . import __title__
@@ -11,7 +10,20 @@ logger = LoggerAddTag(get_extension_logger(__name__), __title__)
 
 
 @shared_task
-def task_forward_notification_to_discord(notification_id):
+def task_forward_notification_to_discord(
+    notification_id: int,
+    discord_uid: int,
+    title: str,
+    message: str,
+    level: str,
+    timestamp: str,
+):
     logger.info("Started task to forward notification %d", notification_id)
-    notification = Notification.objects.get(id=notification_id)
-    forward_notification_to_discord(notification)
+    forward_notification_to_discord(
+        notification_id=notification_id,
+        discord_uid=discord_uid,
+        title=title,
+        message=message,
+        level=level,
+        timestamp=timestamp,
+    )

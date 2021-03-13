@@ -20,10 +20,8 @@ VIEWS_PATH = "discordnotify.views"
 @patch(CORE_PATH + "._send_message_to_discord_user")
 @override_settings(CELERY_ALWAYS_EAGER=True)
 class TestIntegration(TestCase):
-    @classmethod
-    def setUpClass(cls) -> None:
-        super().setUpClass()
-        cls.user = User.objects.create_user("Bruce Wayne")
+    def setUp(self) -> None:
+        self.user = User.objects.create_user("Bruce Wayne")
 
     @patch(SIGNALS_PATH + ".DISCORDNOTIFY_SUPERUSER_ONLY", False)
     def test_should_forward_when_new_notification_is_created(
