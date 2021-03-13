@@ -2,16 +2,19 @@ from unittest.mock import patch
 
 from django.contrib.auth.models import User
 from django.db.models.signals import post_save
-from django.test import TestCase, override_settings
+from django.test import RequestFactory, TestCase, override_settings
+from django.urls import reverse
 
 from allianceauth.notifications import notify
 from allianceauth.notifications.models import Notification
 from allianceauth.services.modules.discord.models import DiscordUser
 
+from . import views
 from .signals import forward_new_notifications
 
-SIGNALS_PATH = "discordnotify.signals"
 CORE_PATH = "discordnotify.core"
+SIGNALS_PATH = "discordnotify.signals"
+VIEWS_PATH = "discordnotify.views"
 
 
 @patch(CORE_PATH + "._send_message_to_discord_user")
@@ -95,3 +98,23 @@ class TestIntegration(TestCase):
         notif.mark_viewed()
         # then
         self.assertFalse(mock_send_message_to_discord_user.called)
+
+
+class TestViews(TestCase):
+    @patch(VIEWS_PATH + ".notify", wraps=notify)
+    @patch(VIEWS_PATH + ".messages_plus")
+    def test_should_create_notification_and_send_message(
+        self, spy_messages_plus, spy_notify
+    ):
+        # given
+        user = User.objects.create_user("Bruce Wayne")
+        factory = RequestFactory()
+        request = factory.get(reverse("discordnotify:send_test_notification"))
+        request.user = user
+        # when
+        response = views.send_test_notification(request)
+        # then
+        self.assertEqual(response.status_code, 302)
+        self.assertEqual(response.url, reverse("authentication:dashboard"))
+        self.assertTrue(spy_notify.called)
+        self.assertTrue(spy_messages_plus.success.called)
