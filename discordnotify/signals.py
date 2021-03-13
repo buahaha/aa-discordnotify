@@ -19,4 +19,6 @@ def forward_new_notifications(instance, created, **kwargs):
         logger.info("Processing notification %d for: %s", instance.id, instance.user)
         task_forward_notification_to_discord.delay(instance.id)
     else:
-        logger.debug("Ignoring notification %d for: %s", instance.id, instance.user)
+        logger.info(
+            "Ignoring notification %d for: %s", instance.id, instance.user
+        )  # TODO: set back to debug for stable release

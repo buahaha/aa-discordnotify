@@ -6,7 +6,7 @@ Forward Alliance Auth notifications to users on Discord
 [![python](https://img.shields.io/pypi/pyversions/aa-discordnotify)](https://pypi.org/project/aa-discordnotify/)
 [![django](https://img.shields.io/pypi/djversions/aa-discordnotify?label=django)](https://pypi.org/project/aa-discordnotify/)
 [![pipeline](https://gitlab.com/ErikKalkoken/aa-discordnotify/badges/master/pipeline.svg)](https://gitlab.com/ErikKalkoken/aa-discordnotify/-/pipelines)
-[![coverage report](https://gitlab.com/ErikKalkoken/aa-discordnotify/badges/master/coverage.svg)](https://gitlab.com/ErikKalkoken/aa-discordnotify/-/commits/master)
+[![codecov](https://codecov.io/gl/ErikKalkoken/aa-discordnotify/branch/master/graph/badge.svg?token=AU1U2LQSUS)](https://codecov.io/gl/ErikKalkoken/aa-discordnotify)
 [![license](https://img.shields.io/badge/license-MIT-green)](https://gitlab.com/ErikKalkoken/aa-discordnotify/-/blob/master/LICENSE)
 [![pre-commit](https://img.shields.io/badge/pre--commit-enabled-brightgreen?logo=pre-commit&logoColor=white)](https://github.com/pre-commit/pre-commit)
 [![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
