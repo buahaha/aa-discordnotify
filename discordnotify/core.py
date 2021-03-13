@@ -44,7 +44,7 @@ def forward_notification_to_discord(notification: Notification):
             icon_url=static_file_absolute_url("icons/apple-touch-icon.png"),
         ),
         title=notification.title,
-        url=reverse_absolute("notifications:list"),
+        url=reverse_absolute("notifications:view", args=[notification.id]),
         description=notification.message,
         color=COLOR_MAP.get(notification.level, None),
         timestamp=notification.timestamp.isoformat(),
