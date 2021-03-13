@@ -79,3 +79,19 @@ class TestIntegration(TestCase):
         notify(user, "hi")
         # then
         self.assertTrue(mock_send_message_to_discord_user.called)
+
+    @patch(SIGNALS_PATH + ".DISCORDNOTIFY_SUPERUSER_ONLY", True)
+    def test_should_forward_to_superusers_only_3(
+        self, mock_send_message_to_discord_user
+    ):
+        # given
+        user = User.objects.create_superuser("Clark Kent")
+        DiscordUser.objects.create(user=user, uid=987)
+        post_save.disconnect(forward_new_notifications, sender=Notification)
+        notify(user, "hi")
+        post_save.connect(forward_new_notifications, sender=Notification)
+        # when
+        notif = Notification.objects.filter(user=user).first()
+        notif.mark_viewed()
+        # then
+        self.assertFalse(mock_send_message_to_discord_user.called)

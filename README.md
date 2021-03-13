@@ -21,12 +21,13 @@ Forward Alliance Auth notifications to users on Discord
 
 ## Overview
 
-This app forwards Alliance Auth notifications to users on Discord as DM.
+This app automatically forwards Alliance Auth notifications to users on Discord.
 
 ### Features
 
+- Aut notifications appear as DM on Discord
 - Notifications are colored according to level (e.g. INFO = blue)
-- Option to forward superuser notifications only
+- Option to forward superuser's notifications only
 
 ## Example
 
@@ -38,9 +39,9 @@ This app forwards Alliance Auth notifications to users on Discord as DM.
 
 1. Discord Notify is a plugin for Alliance Auth. If you don't have Alliance Auth running already, please install it first before proceeding. (see the official [AA installation guide](https://allianceauth.readthedocs.io/en/latest/installation/auth/allianceauth/) for details)
 
-2. Discord Notify needs the server [Discord Proxy](https://gitlab.com/ErikKalkoken/discordproxy) to function. Please make sure it is up and running on your site, before before continuing.
+1. Discord Notify needs [Discord Proxy](https://gitlab.com/ErikKalkoken/discordproxy) to function. Please make sure the server is up and running on your system, before continuing.
 
-3. Please also make sure you have the Discord service enabled in Alliance Auth.
+1. Please also make sure you have the Discord service enabled in Alliance Auth.
 
 ### Step 1 - Install app
 
