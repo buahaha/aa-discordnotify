@@ -48,7 +48,7 @@ This app automatically forwards Alliance Auth notifications to users on Discord.
 Make sure you are in the virtual environment (venv) of your Alliance Auth installation. Then install the newest release from PyPI:
 
 ```bash
-pip install git+https://gitlab.com/ErikKalkoken/aa-discordnotify
+pip install aa-discordnotify
 ```
 
 ### Step 2a - Configure Auth settings

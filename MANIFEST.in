@@ -1,5 +1,4 @@
 include LICENSE
 include README.md
-recursive-include example *.py
-recursive-include example/static *
-recursive-include example/templates *
+recursive-include discordnotify *.py
+exclude discordnotify/tests.py
