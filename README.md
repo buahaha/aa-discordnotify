@@ -54,14 +54,14 @@ pip install git+https://gitlab.com/ErikKalkoken/aa-discordnotify
 
 Configure your Auth settings (`local.py`) as follows:
 
-- Add `'discordproxy'` to `INSTALLED_APPS`
+- Add `"discordnotify"` to `INSTALLED_APPS`
 - Optional: Add additional settings if you want to change any defaults. See [Settings](#settings) for the full list.
 
 ### Step 3 - Finalize App installation
 
 Restart your supervisor services for Auth (no migration required).
 
-Congratulations you are now ready to use Member Audit!
+Congratulations you are now ready to use Discord Notify!
 
 ## Settings
 
