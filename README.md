@@ -78,5 +78,6 @@ Note that all settings are optional and the app will use the documented default 
 
 Name | Description | Default
 -- | -- | --
+`DISCORDNOTIFY_ENABLED`| Set this to False to disable this app temporarily | `True`
 `DISCORDNOTIFY_DISCORDPROXY_PORT`| Port used to communicate with Discord Proxy. | `50051`
 `DISCORDNOTIFY_SUPERUSER_ONLY`| When set to True, only superusers will be get their notifications forwarded. | `False`

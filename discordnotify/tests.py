@@ -23,6 +23,7 @@ class TestIntegration(TestCase):
     def setUp(self) -> None:
         self.user = User.objects.create_user("Bruce Wayne")
 
+    @patch(SIGNALS_PATH + ".DISCORDNOTIFY_ENABLED", True)
     @patch(SIGNALS_PATH + ".DISCORDNOTIFY_SUPERUSER_ONLY", False)
     def test_should_forward_when_new_notification_is_created(
         self, mock_send_message_to_discord_user
@@ -34,6 +35,19 @@ class TestIntegration(TestCase):
         # then
         self.assertTrue(mock_send_message_to_discord_user.called)
 
+    @patch(SIGNALS_PATH + ".DISCORDNOTIFY_SUPERUSER_ONLY", False)
+    def test_should_not_forward_when_app_is_disabled(
+        self, mock_send_message_to_discord_user
+    ):
+        # given
+        DiscordUser.objects.create(user=self.user, uid=123)
+        # when
+        with patch(SIGNALS_PATH + ".DISCORDNOTIFY_ENABLED", False):
+            notify(self.user, "hi")
+        # then
+        self.assertFalse(mock_send_message_to_discord_user.called)
+
+    @patch(SIGNALS_PATH + ".DISCORDNOTIFY_ENABLED", True)
     @patch(SIGNALS_PATH + ".DISCORDNOTIFY_SUPERUSER_ONLY", False)
     def test_should_not_forward_when_notification_is_updated(
         self, mock_send_message_to_discord_user
@@ -49,6 +63,7 @@ class TestIntegration(TestCase):
         # then
         self.assertFalse(mock_send_message_to_discord_user.called)
 
+    @patch(SIGNALS_PATH + ".DISCORDNOTIFY_ENABLED", True)
     @patch(SIGNALS_PATH + ".DISCORDNOTIFY_SUPERUSER_ONLY", False)
     def test_should_not_forward_when_user_has_no_account(
         self, mock_send_message_to_discord_user
@@ -58,6 +73,7 @@ class TestIntegration(TestCase):
         # then
         self.assertFalse(mock_send_message_to_discord_user.called)
 
+    @patch(SIGNALS_PATH + ".DISCORDNOTIFY_ENABLED", True)
     @patch(SIGNALS_PATH + ".DISCORDNOTIFY_SUPERUSER_ONLY", True)
     def test_should_forward_to_superusers_only_1(
         self, mock_send_message_to_discord_user
@@ -69,6 +85,7 @@ class TestIntegration(TestCase):
         # then
         self.assertFalse(mock_send_message_to_discord_user.called)
 
+    @patch(SIGNALS_PATH + ".DISCORDNOTIFY_ENABLED", True)
     @patch(SIGNALS_PATH + ".DISCORDNOTIFY_SUPERUSER_ONLY", True)
     def test_should_forward_to_superusers_only_2(
         self, mock_send_message_to_discord_user
@@ -81,6 +98,7 @@ class TestIntegration(TestCase):
         # then
         self.assertTrue(mock_send_message_to_discord_user.called)
 
+    @patch(SIGNALS_PATH + ".DISCORDNOTIFY_ENABLED", True)
     @patch(SIGNALS_PATH + ".DISCORDNOTIFY_SUPERUSER_ONLY", True)
     def test_should_forward_to_superusers_only_3(
         self, mock_send_message_to_discord_user

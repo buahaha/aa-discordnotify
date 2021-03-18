@@ -7,3 +7,6 @@ DISCORDNOTIFY_DISCORDPROXY_PORT = getattr(
 
 # When set to True, only superusers will be get their notifications forwarded
 DISCORDNOTIFY_SUPERUSER_ONLY = getattr(settings, "DISCORDNOTIFY_SUPERUSER_ONLY", False)
+
+# Set this to False to disable this app temporarily
+DISCORDNOTIFY_ENABLED = getattr(settings, "DISCORDNOTIFY_ENABLED", True)
