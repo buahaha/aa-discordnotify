@@ -1,12 +1,12 @@
 import grpc
-from app_utils.logging import LoggerAddTag
-from app_utils.urls import reverse_absolute, static_file_absolute_url
 from discordproxy.discord_api_pb2 import Embed, SendDirectMessageRequest
 from discordproxy.discord_api_pb2_grpc import DiscordApiStub
 
 from django.conf import settings
 
 from allianceauth.services.hooks import get_extension_logger
+from app_utils.logging import LoggerAddTag
+from app_utils.urls import reverse_absolute, static_file_absolute_url
 
 from . import __title__
 from .app_settings import DISCORDNOTIFY_DISCORDPROXY_PORT

@@ -1,11 +1,10 @@
-from app_utils.logging import LoggerAddTag
-
 from django.core.exceptions import ObjectDoesNotExist
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 
 from allianceauth.notifications.models import Notification
 from allianceauth.services.hooks import get_extension_logger
+from app_utils.logging import LoggerAddTag
 
 from . import __title__
 from .app_settings import DISCORDNOTIFY_ENABLED, DISCORDNOTIFY_SUPERUSER_ONLY

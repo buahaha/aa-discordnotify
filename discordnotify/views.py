@@ -1,9 +1,8 @@
-from app_utils.messages import messages_plus
-
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import redirect
 
 from allianceauth.notifications import notify
+from app_utils.messages import messages_plus
 
 
 @login_required

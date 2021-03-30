@@ -1,7 +1,7 @@
-from app_utils.logging import LoggerAddTag
 from celery import shared_task
 
 from allianceauth.services.hooks import get_extension_logger
+from app_utils.logging import LoggerAddTag
 
 from . import __title__
 from .core import forward_notification_to_discord

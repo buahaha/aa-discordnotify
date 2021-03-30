@@ -25,9 +25,9 @@ This app automatically forwards Alliance Auth notifications to users on Discord.
 
 ### Features
 
-- Aut notifications appear as DM on Discord
-- Notifications are colored according to level (e.g. INFO = blue)
-- Option to forward superuser's notifications only
+- Auth notifications appear instantly as DM on Discord
+- Notifications are colored according to their level (e.g. INFO = blue)
+- Can be restricted to notifications for superusers only (e.g. to keep track of errors)
 
 ## Example
 
@@ -35,15 +35,15 @@ This app automatically forwards Alliance Auth notifications to users on Discord.
 
 ## Installation
 
-### Preconditions
+### Step 1 - Check preconditions
 
 1. Discord Notify is a plugin for Alliance Auth. If you don't have Alliance Auth running already, please install it first before proceeding. (see the official [AA installation guide](https://allianceauth.readthedocs.io/en/latest/installation/auth/allianceauth/) for details)
 
 1. Discord Notify needs [Discord Proxy](https://gitlab.com/ErikKalkoken/discordproxy) to function. Please make sure the server is up and running on your system, before continuing.
 
-1. Please also make sure you have the Discord service enabled in Alliance Auth.
+1. Please also make sure you have the Discord service installed and setup in Alliance Auth.
 
-### Step 1 - Install app
+### Step 2 - Install app
 
 Make sure you are in the virtual environment (venv) of your Alliance Auth installation. Then install the newest release from PyPI:
 
@@ -51,18 +51,18 @@ Make sure you are in the virtual environment (venv) of your Alliance Auth instal
 pip install aa-discordnotify
 ```
 
-### Step 2a - Configure Auth settings
+### Step 3 - Configure Auth settings
 
 Configure your Auth settings (`local.py`) as follows:
 
 - Add `"discordnotify"` to `INSTALLED_APPS`
 - Optional: Add additional settings if you want to change any defaults. See [Settings](#settings) for the full list.
 
-### Step 3 - Finalize App installation
+### Step 4 - Finalize App installation
 
 Restart your supervisor services for Auth (no migration required).
 
-### Step 4 - Send test notification
+### Step 5 - Send test notification
 
 To test that your installation was successful you can create a test notification to yourself by navigating to the relative route `/discordnotify/test/` in your browser. The absolute URL depends on your Auth site. Example: For an Auth site with the URL `https://auth.example.com` the test URL would be: `https://auth.example.com/discordnotify/test/`.
 
