@@ -64,7 +64,11 @@ Restart your supervisor services for Auth (no migration required).
 
 ### Step 5 - Send test notification
 
-To test that your installation was successful you can create a test notification to yourself by navigating to the relative route `/discordnotify/test/` in your browser. The absolute URL depends on your Auth site. Example: For an Auth site with the URL `https://auth.example.com` the test URL would be: `https://auth.example.com/discordnotify/test/`.
+To test that your installation was successful you can create a test notification to yourself by navigating to the relative route `/discordnotify/test` in your browser. The absolute URL depends on your Auth site. Example: For an Auth site with the URL `https://auth.example.com` the test URL would be:
+
+```text
+https://auth.example.com/discordnotify/test
+```
 
 When everything was setup correctly, you will receive a test notification on Discord.
 
