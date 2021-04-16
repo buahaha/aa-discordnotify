@@ -84,4 +84,5 @@ Name | Description | Default
 -- | -- | --
 `DISCORDNOTIFY_ENABLED`| Set this to False to disable this app temporarily | `True`
 `DISCORDNOTIFY_DISCORDPROXY_PORT`| Port used to communicate with Discord Proxy. | `50051`
-`DISCORDNOTIFY_SUPERUSER_ONLY`| When set to True, only superusers will be get their notifications forwarded. | `False`
+`DISCORDNOTIFY_MARK_AS_VIEWED`| When enabled will mark all notifications as viewed that have been successfully submitted to Discord | `False`
+`DISCORDNOTIFY_SUPERUSER_ONLY`| When enabled only superusers will be get their notifications forwarded. | `False`

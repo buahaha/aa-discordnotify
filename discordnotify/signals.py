@@ -39,6 +39,4 @@ def forward_new_notifications(instance, created, **kwargs):
                 timestamp=instance.timestamp.isoformat(),
             )
         else:
-            logger.info(
-                "Ignoring notification %d for: %s", instance.id, instance.user
-            )  # TODO: set back to debug for stable release
+            logger.debug("Ignoring notification %d for: %s", instance.id, instance.user)

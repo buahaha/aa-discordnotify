@@ -4,12 +4,13 @@ from discordproxy.discord_api_pb2_grpc import DiscordApiStub
 
 from django.conf import settings
 
+from allianceauth.notifications.models import Notification
 from allianceauth.services.hooks import get_extension_logger
 from app_utils.logging import LoggerAddTag
 from app_utils.urls import reverse_absolute, static_file_absolute_url
 
 from . import __title__
-from .app_settings import DISCORDNOTIFY_DISCORDPROXY_PORT
+from .app_settings import DISCORDNOTIFY_DISCORDPROXY_PORT, DISCORDNOTIFY_MARK_AS_VIEWED
 
 logger = LoggerAddTag(get_extension_logger(__name__), __title__)
 
@@ -35,7 +36,6 @@ def forward_notification_to_discord(
     level: str,
     timestamp: str,
 ):
-
     embed = Embed(
         author=Embed.Author(
             name="Alliance Auth Notification",
@@ -50,6 +50,7 @@ def forward_notification_to_discord(
     )
     logger.info("Forwarding notification %d to %s", notification_id, discord_uid)
     _send_message_to_discord_user(user_id=discord_uid, embed=embed)
+    _mark_as_viewed(notification_id)
 
 
 def _send_message_to_discord_user(user_id, embed):
@@ -59,3 +60,13 @@ def _send_message_to_discord_user(user_id, embed):
         client = DiscordApiStub(channel)
         request = SendDirectMessageRequest(user_id=user_id, embed=embed)
         client.SendDirectMessage(request)
+
+
+def _mark_as_viewed(notification_id):
+    if DISCORDNOTIFY_MARK_AS_VIEWED:
+        try:
+            notif = Notification.objects.get(id=notification_id)
+        except Notification.DoesNotExist:
+            return
+        else:
+            notif.mark_viewed()

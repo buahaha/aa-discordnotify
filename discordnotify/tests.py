@@ -115,6 +115,49 @@ class TestIntegration(TestCase):
         # then
         self.assertFalse(mock_send_message_to_discord_user.called)
 
+    @patch(CORE_PATH + ".DISCORDNOTIFY_MARK_AS_VIEWED", True)
+    @patch(SIGNALS_PATH + ".DISCORDNOTIFY_ENABLED", True)
+    @patch(SIGNALS_PATH + ".DISCORDNOTIFY_SUPERUSER_ONLY", False)
+    def test_should_mark_notification_as_viewed_once_submitted(
+        self, mock_send_message_to_discord_user
+    ):
+        # given
+        DiscordUser.objects.create(user=self.user, uid=123)
+        # when
+        obj = Notification.objects.notify_user(user=self.user, title="hi")
+        # then
+        obj.refresh_from_db()
+        self.assertTrue(obj.viewed)
+
+    @patch(CORE_PATH + ".DISCORDNOTIFY_MARK_AS_VIEWED", False)
+    @patch(SIGNALS_PATH + ".DISCORDNOTIFY_ENABLED", True)
+    @patch(SIGNALS_PATH + ".DISCORDNOTIFY_SUPERUSER_ONLY", False)
+    def test_should_not_mark_notification_as_viewed_once_submitted(
+        self, mock_send_message_to_discord_user
+    ):
+        # given
+        DiscordUser.objects.create(user=self.user, uid=123)
+        # when
+        obj = Notification.objects.notify_user(user=self.user, title="hi")
+        # then
+        obj.refresh_from_db()
+        self.assertFalse(obj.viewed)
+
+    @patch(CORE_PATH + ".DISCORDNOTIFY_MARK_AS_VIEWED", False)
+    @patch(SIGNALS_PATH + ".DISCORDNOTIFY_ENABLED", True)
+    @patch(SIGNALS_PATH + ".DISCORDNOTIFY_SUPERUSER_ONLY", False)
+    def test_should_not_mark_notification_as_viewed_when_failed(
+        self, mock_send_message_to_discord_user
+    ):
+        # given
+        mock_send_message_to_discord_user.side_effect = OSError
+        DiscordUser.objects.create(user=self.user, uid=123)
+        # when
+        obj = Notification.objects.notify_user(user=self.user, title="hi")
+        # then
+        obj.refresh_from_db()
+        self.assertFalse(obj.viewed)
+
 
 class TestViews(TestCase):
     @patch(VIEWS_PATH + ".notify", wraps=notify)
