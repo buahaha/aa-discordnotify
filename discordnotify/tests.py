@@ -46,18 +46,12 @@ class TestIntegration(TestCase):
     ):
         # given
         DiscordUser.objects.create(user=self.user, uid=123)
-        message_p1 = "x" * 2048
-        message_p2 = "y" * 100
         # when
-        notify(self.user, title="title", message=message_p1 + message_p2)
+        notify(self.user, title="title", message="x" * 3000)
         # then
-        self.assertEqual(mock_send_message_to_discord_user.call_count, 2)
-        first_call_args = mock_send_message_to_discord_user.call_args_list[0]
-        _, kwargs = first_call_args
-        self.assertEqual(kwargs["embed"].description, message_p1)
-        second_call_args = mock_send_message_to_discord_user.call_args_list[1]
-        _, kwargs = second_call_args
-        self.assertEqual(kwargs["embed"].description, message_p2)
+        self.assertTrue(mock_send_message_to_discord_user.called)
+        _, kwargs = mock_send_message_to_discord_user.call_args
+        self.assertEqual(len(kwargs["embed"].description), 2048)
 
     @patch(SIGNALS_PATH + ".DISCORDNOTIFY_SUPERUSER_ONLY", False)
     def test_should_not_forward_when_app_is_disabled(

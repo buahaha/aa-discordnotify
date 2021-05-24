@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased] - yyyy-mm-dd
 
+## [1.0.1] - 2021-05-24
+
+### Changed
+
+- Truncate large notifications instead of splitting them into multiple messages on Discord
+
 ## [1.0.0] - 2021-05-24
 
 ### Added

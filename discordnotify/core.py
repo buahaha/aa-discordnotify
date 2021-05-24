@@ -1,5 +1,3 @@
-from math import ceil
-
 import grpc
 from discordproxy.discord_api_pb2 import Embed, SendDirectMessageRequest
 from discordproxy.discord_api_pb2_grpc import DiscordApiStub
@@ -42,28 +40,23 @@ def forward_notification_to_discord(
     level: str,
     timestamp: str,
 ):
-    message_trimmed = message.strip()
-    message_count = ceil(len(message_trimmed) / MAX_LENGTH_DESCRIPTION)
-    for n in range(message_count):
-        logger.info("Forwarding notification %d to %s", notification_id, discord_uid)
-        title_embed = title.strip()
-        if message_count > 1:
-            title_embed += f" ({n + 1}/{message_count})"
-        embed = Embed(
-            author=Embed.Author(
-                name="Alliance Auth Notification",
-                icon_url=static_file_absolute_url("icons/apple-touch-icon.png"),
-            ),
-            title=title_embed[:MAX_LENGTH_TITLE],
-            url=reverse_absolute("notifications:view", args=[notification_id]),
-            description=message[
-                n * MAX_LENGTH_DESCRIPTION : (n + 1) * MAX_LENGTH_DESCRIPTION
-            ],
-            color=COLOR_MAP.get(level, None),
-            timestamp=timestamp,
-            footer=Embed.Footer(text=settings.SITE_NAME),
-        )
-        _send_message_to_discord_user(discord_uid=discord_uid, embed=embed)
+    logger.info("Forwarding notification %d to %s", notification_id, discord_uid)
+    description = message.strip()
+    if len(description) > MAX_LENGTH_DESCRIPTION:
+        description = description[: (MAX_LENGTH_DESCRIPTION - 6)] + " [...]"
+    embed = Embed(
+        author=Embed.Author(
+            name="Alliance Auth Notification",
+            icon_url=static_file_absolute_url("icons/apple-touch-icon.png"),
+        ),
+        title=title.strip()[:MAX_LENGTH_TITLE],
+        url=reverse_absolute("notifications:view", args=[notification_id]),
+        description=description,
+        color=COLOR_MAP.get(level, None),
+        timestamp=timestamp,
+        footer=Embed.Footer(text=settings.SITE_NAME),
+    )
+    _send_message_to_discord_user(discord_uid=discord_uid, embed=embed)
     _mark_as_viewed(notification_id)
 
 
