@@ -1,3 +1,5 @@
+from math import ceil
+
 import grpc
 from discordproxy.discord_api_pb2 import Embed, SendDirectMessageRequest
 from discordproxy.discord_api_pb2_grpc import DiscordApiStub
@@ -27,6 +29,10 @@ COLOR_MAP = {
     "danger": COLOR_DANGER,
 }
 
+# limits
+MAX_LENGTH_TITLE = 256
+MAX_LENGTH_DESCRIPTION = 2048
+
 
 def forward_notification_to_discord(
     notification_id: int,
@@ -36,29 +42,37 @@ def forward_notification_to_discord(
     level: str,
     timestamp: str,
 ):
-    embed = Embed(
-        author=Embed.Author(
-            name="Alliance Auth Notification",
-            icon_url=static_file_absolute_url("icons/apple-touch-icon.png"),
-        ),
-        title=title,
-        url=reverse_absolute("notifications:view", args=[notification_id]),
-        description=message,
-        color=COLOR_MAP.get(level, None),
-        timestamp=timestamp,
-        footer=Embed.Footer(text=settings.SITE_NAME),
-    )
-    logger.info("Forwarding notification %d to %s", notification_id, discord_uid)
-    _send_message_to_discord_user(user_id=discord_uid, embed=embed)
+    message_trimmed = message.strip()
+    message_count = ceil(len(message_trimmed) / MAX_LENGTH_DESCRIPTION)
+    for n in range(message_count):
+        logger.info("Forwarding notification %d to %s", notification_id, discord_uid)
+        title_embed = title.strip()
+        if message_count > 1:
+            title_embed += f" ({n + 1}/{message_count})"
+        embed = Embed(
+            author=Embed.Author(
+                name="Alliance Auth Notification",
+                icon_url=static_file_absolute_url("icons/apple-touch-icon.png"),
+            ),
+            title=title_embed[:MAX_LENGTH_TITLE],
+            url=reverse_absolute("notifications:view", args=[notification_id]),
+            description=message[
+                n * MAX_LENGTH_DESCRIPTION : (n + 1) * MAX_LENGTH_DESCRIPTION
+            ],
+            color=COLOR_MAP.get(level, None),
+            timestamp=timestamp,
+            footer=Embed.Footer(text=settings.SITE_NAME),
+        )
+        _send_message_to_discord_user(discord_uid=discord_uid, embed=embed)
     _mark_as_viewed(notification_id)
 
 
-def _send_message_to_discord_user(user_id, embed):
+def _send_message_to_discord_user(discord_uid: int, embed: Embed):
     with grpc.insecure_channel(
         f"localhost:{DISCORDNOTIFY_DISCORDPROXY_PORT}"
     ) as channel:
         client = DiscordApiStub(channel)
-        request = SendDirectMessageRequest(user_id=user_id, embed=embed)
+        request = SendDirectMessageRequest(user_id=discord_uid, embed=embed)
         try:
             client.SendDirectMessage(request)
         except grpc.RpcError as e:
