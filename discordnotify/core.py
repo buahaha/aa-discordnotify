@@ -59,7 +59,14 @@ def _send_message_to_discord_user(user_id, embed):
     ) as channel:
         client = DiscordApiStub(channel)
         request = SendDirectMessageRequest(user_id=user_id, embed=embed)
-        client.SendDirectMessage(request)
+        try:
+            client.SendDirectMessage(request)
+        except grpc.RpcError as e:
+            logger.error(
+                "Failed to send message to Discord API: %s: %s",
+                e.code(),
+                e.details(),
+            )
 
 
 def _mark_as_viewed(notification_id):
